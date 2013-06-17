@@ -16,7 +16,6 @@ jQuery.fn.timelinr = function(options){
 	// default plugin settings
 	settings = jQuery.extend({
 		orientation: 				'horizontal',		// value: horizontal | vertical, default to horizontal
-		containerDiv: 				'#timeline',		// value: any HTML tag or #id, default to #timeline
 		datesDiv: 					'#dates',			// value: any HTML tag or #id, default to #dates
 		datesSelectedClass: 		'selected',			// value: any class, default to selected
 		datesSpeed: 				'normal',			// value: integer between 100 and 1000 (recommended) or 'slow', 'normal' or 'fast'; default to normal
@@ -37,11 +36,12 @@ jQuery.fn.timelinr = function(options){
 	$(function(){
 								
 		// setting variables... many of them
+		
 		var howManyDates = src.find(settings.datesDiv+' li').length;		
 		var howManyIssues = src.find(settings.issuesDiv+' li').length;
 		var currentDate = src.find(settings.datesDiv).find('a.'+settings.datesSelectedClass);
-		var widthContainer = src.find(settings.containerDiv).width();
-		var heightContainer = src.find(settings.containerDiv).height();
+		var widthContainer = src.width();
+		var heightContainer = src.height();
 		var widthIssues = src.find(settings.issuesDiv).width();
 		var heightIssues = src.find(settings.issuesDiv).height();
 		var widthIssue = src.find(settings.issuesDiv+' li').width();
@@ -55,7 +55,7 @@ jQuery.fn.timelinr = function(options){
 
 		// set positions!
 		if(settings.orientation == 'horizontal') {	
-			src.find(settings.issuesDiv).width(widthIssue*howManyIssues);
+			src.find(settings.issuesDiv).width(widthIssue*howManyIssues);						
 			src.find(settings.datesDiv).width(widthDate*howManyDates).css('marginLeft',widthContainer/2-widthDate/2);
 			var defaultPositionDates = parseInt(src.find(settings.datesDiv).css('marginLeft').substring(0,src.find(settings.datesDiv).css('marginLeft').indexOf('px')));
 		} else if(settings.orientation == 'vertical') {
