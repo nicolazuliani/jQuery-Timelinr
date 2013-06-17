@@ -10,6 +10,9 @@ instructions: http://www.csslab.cl/2011/08/18/jquery-timelinr/
 ---------------------------------- */
 
 jQuery.fn.timelinr = function(options){
+
+	var src = $(this);     
+
 	// default plugin settings
 	settings = jQuery.extend({
 		orientation: 				'horizontal',		// value: horizontal | vertical, default to horizontal
@@ -32,199 +35,203 @@ jQuery.fn.timelinr = function(options){
 	}, options);
 
 	$(function(){
+								
 		// setting variables... many of them
-		var howManyDates = $(settings.datesDiv+' li').length;
-		var howManyIssues = $(settings.issuesDiv+' li').length;
-		var currentDate = $(settings.datesDiv).find('a.'+settings.datesSelectedClass);
-		var currentIssue = $(settings.issuesDiv).find('li.'+settings.issuesSelectedClass);
-		var widthContainer = $(settings.containerDiv).width();
-		var heightContainer = $(settings.containerDiv).height();
-		var widthIssues = $(settings.issuesDiv).width();
-		var heightIssues = $(settings.issuesDiv).height();
-		var widthIssue = $(settings.issuesDiv+' li').width();
-		var heightIssue = $(settings.issuesDiv+' li').height();
-		var widthDates = $(settings.datesDiv).width();
-		var heightDates = $(settings.datesDiv).height();
-		var widthDate = $(settings.datesDiv+' li').width();
-		var heightDate = $(settings.datesDiv+' li').height();
+		var howManyDates = src.find(settings.datesDiv+' li').length;		
+		var howManyIssues = src.find(settings.issuesDiv+' li').length;
+		var currentDate = src.find(settings.datesDiv).find('a.'+settings.datesSelectedClass);
+		var widthContainer = src.find(settings.containerDiv).width();
+		var heightContainer = src.find(settings.containerDiv).height();
+		var widthIssues = src.find(settings.issuesDiv).width();
+		var heightIssues = src.find(settings.issuesDiv).height();
+		var widthIssue = src.find(settings.issuesDiv+' li').width();
+		var heightIssue = src.find(settings.issuesDiv+' li').height();
+		var widthDates = src.find(settings.datesDiv).width();
+		var heightDates = src.find(settings.datesDiv).height();
+		var widthDate = src.find(settings.datesDiv+' li').width();
+		var heightDate = src.find(settings.datesDiv+' li').height();
+		
+		
+
 		// set positions!
 		if(settings.orientation == 'horizontal') {	
-			$(settings.issuesDiv).width(widthIssue*howManyIssues);
-			$(settings.datesDiv).width(widthDate*howManyDates).css('marginLeft',widthContainer/2-widthDate/2);
-			var defaultPositionDates = parseInt($(settings.datesDiv).css('marginLeft').substring(0,$(settings.datesDiv).css('marginLeft').indexOf('px')));
+			src.find(settings.issuesDiv).width(widthIssue*howManyIssues);
+			src.find(settings.datesDiv).width(widthDate*howManyDates).css('marginLeft',widthContainer/2-widthDate/2);
+			var defaultPositionDates = parseInt(src.find(settings.datesDiv).css('marginLeft').substring(0,src.find(settings.datesDiv).css('marginLeft').indexOf('px')));
 		} else if(settings.orientation == 'vertical') {
-			$(settings.issuesDiv).height(heightIssue*howManyIssues);
-			$(settings.datesDiv).height(heightDate*howManyDates).css('marginTop',heightContainer/2-heightDate/2);
-			var defaultPositionDates = parseInt($(settings.datesDiv).css('marginTop').substring(0,$(settings.datesDiv).css('marginTop').indexOf('px')));
+			src.find(settings.issuesDiv).height(heightIssue*howManyIssues);
+			src.find(settings.datesDiv).height(heightDate*howManyDates).css('marginTop',heightContainer/2-heightDate/2);
+			var defaultPositionDates = parseInt(src.find(settings.datesDiv).css('marginTop').substring(0,src.find(settings.datesDiv).css('marginTop').indexOf('px')));
 		}
 		
-		$(settings.datesDiv+' a').click(function(event){
+		src.find(settings.datesDiv+' a').click(function(event){
 			event.preventDefault();
 			// first vars
 			var whichIssue = $(this).text();
 			var currentIndex = $(this).parent().prevAll().length;
 			// moving the elements
 			if(settings.orientation == 'horizontal') {
-				$(settings.issuesDiv).animate({'marginLeft':-widthIssue*currentIndex},{queue:false, duration:settings.issuesSpeed});
+				src.find(settings.issuesDiv).animate({'marginLeft':-widthIssue*currentIndex},{queue:false, duration:settings.issuesSpeed});
 			} else if(settings.orientation == 'vertical') {
-				$(settings.issuesDiv).animate({'marginTop':-heightIssue*currentIndex},{queue:false, duration:settings.issuesSpeed});
+				src.find(settings.issuesDiv).animate({'marginTop':-heightIssue*currentIndex},{queue:false, duration:settings.issuesSpeed});
 			}
-			$(settings.issuesDiv+' li').animate({'opacity':settings.issuesTransparency},{queue:false, duration:settings.issuesSpeed}).removeClass(settings.issuesSelectedClass).eq(currentIndex).addClass(settings.issuesSelectedClass).fadeTo(settings.issuesTransparencySpeed,1);
+			
+			src.find(settings.issuesDiv+' li').animate({'opacity':settings.issuesTransparency},{queue:false, duration:settings.issuesSpeed}).removeClass(settings.issuesSelectedClass).eq(currentIndex).addClass(settings.issuesSelectedClass).fadeTo(settings.issuesTransparencySpeed,1);
 			// prev/next buttons now disappears on first/last issue | bugfix from 0.9.51: lower than 1 issue hide the arrows | bugfixed: arrows not showing when jumping from first to last date
 			if(howManyDates == 1) {
-				$(settings.prevButton+','+settings.nextButton).fadeOut('fast');
+				src.find(settings.prevButton+','+settings.nextButton).fadeOut('fast');
 			} else if(howManyDates == 2) {
-				if($(settings.issuesDiv+' li:first-child').hasClass(settings.issuesSelectedClass)) {
-					$(settings.prevButton).fadeOut('fast');
-				 	$(settings.nextButton).fadeIn('fast');
+				if(src.find(settings.issuesDiv+' li:first-child').hasClass(settings.issuesSelectedClass)) {
+					src.find(settings.prevButton).fadeOut('fast');
+				 	src.find(settings.nextButton).fadeIn('fast');
 				} 
-				else if($(settings.issuesDiv+' li:last-child').hasClass(settings.issuesSelectedClass)) {
-					$(settings.nextButton).fadeOut('fast');
-					$(settings.prevButton).fadeIn('fast');
+				else if(src.find(settings.issuesDiv+' li:last-child').hasClass(settings.issuesSelectedClass)) {
+					src.find(settings.nextButton).fadeOut('fast');
+					src.find(settings.prevButton).fadeIn('fast');
 				}
 			} else {
-				if( $(settings.issuesDiv+' li:first-child').hasClass(settings.issuesSelectedClass) ) {
-					$(settings.nextButton).fadeIn('fast');
-					$(settings.prevButton).fadeOut('fast');
+				if( src.find(settings.issuesDiv+' li:first-child').hasClass(settings.issuesSelectedClass) ) {
+					src.find(settings.nextButton).fadeIn('fast');
+					src.find(settings.prevButton).fadeOut('fast');
 				} 
-				else if( $(settings.issuesDiv+' li:last-child').hasClass(settings.issuesSelectedClass) ) {
-					$(settings.prevButton).fadeIn('fast');
-					$(settings.nextButton).fadeOut('fast');
+				else if( src.find(settings.issuesDiv+' li:last-child').hasClass(settings.issuesSelectedClass) ) {
+					src.find(settings.prevButton).fadeIn('fast');
+					src.find(settings.nextButton).fadeOut('fast');
 				}
 				else {
-					$(settings.nextButton+','+settings.prevButton).fadeIn('slow');
+					src.find(settings.nextButton+','+settings.prevButton).fadeIn('slow');
 				}	
 			}
 			// now moving the dates
-			$(settings.datesDiv+' a').removeClass(settings.datesSelectedClass);
+			src.find(settings.datesDiv+' a').removeClass(settings.datesSelectedClass);
 			$(this).addClass(settings.datesSelectedClass);
 			if(settings.orientation == 'horizontal') {
-				$(settings.datesDiv).animate({'marginLeft':defaultPositionDates-(widthDate*currentIndex)},{queue:false, duration:'settings.datesSpeed'});
+				src.find(settings.datesDiv).animate({'marginLeft':defaultPositionDates-(widthDate*currentIndex)},{queue:false, duration:'settings.datesSpeed'});
 			} else if(settings.orientation == 'vertical') {
-				$(settings.datesDiv).animate({'marginTop':defaultPositionDates-(heightDate*currentIndex)},{queue:false, duration:'settings.datesSpeed'});
+				src.find(settings.datesDiv).animate({'marginTop':defaultPositionDates-(heightDate*currentIndex)},{queue:false, duration:'settings.datesSpeed'});
 			}
 		});
 
-		$(settings.nextButton).bind('click', function(event){
+		src.find(settings.nextButton).bind('click', function(event){
 			event.preventDefault();
 			if(settings.orientation == 'horizontal') {
-				var currentPositionIssues = parseInt($(settings.issuesDiv).css('marginLeft').substring(0,$(settings.issuesDiv).css('marginLeft').indexOf('px')));
+				var currentPositionIssues = parseInt(src.find(settings.issuesDiv).css('marginLeft').substring(0,src.find(settings.issuesDiv).css('marginLeft').indexOf('px')));
 				var currentIssueIndex = currentPositionIssues/widthIssue;
-				var currentPositionDates = parseInt($(settings.datesDiv).css('marginLeft').substring(0,$(settings.datesDiv).css('marginLeft').indexOf('px')));
+				var currentPositionDates = parseInt(src.find(settings.datesDiv).css('marginLeft').substring(0,src.find(settings.datesDiv).css('marginLeft').indexOf('px')));
 				var currentIssueDate = currentPositionDates-widthDate;
 				if(currentPositionIssues <= -(widthIssue*howManyIssues-(widthIssue))) {
-					$(settings.issuesDiv).stop();
-					$(settings.datesDiv+' li:last-child a').click();
+					src.find(settings.issuesDiv).stop();
+					src.find(settings.datesDiv+' li:last-child a').click();
 				} else {
-					if (!$(settings.issuesDiv).is(':animated')) {
-						$(settings.issuesDiv).animate({'marginLeft':currentPositionIssues-widthIssue},{queue:false, duration:settings.issuesSpeed});
-						$(settings.issuesDiv+' li').animate({'opacity':settings.issuesTransparency},{queue:false, duration:settings.issuesSpeed});
-						$(settings.issuesDiv+' li.'+settings.issuesSelectedClass).removeClass(settings.issuesSelectedClass).next().fadeTo(settings.issuesTransparencySpeed, 1).addClass(settings.issuesSelectedClass);
-						$(settings.datesDiv).animate({'marginLeft':currentIssueDate},{queue:false, duration:'settings.datesSpeed'});
-						$(settings.datesDiv+' a.'+settings.datesSelectedClass).removeClass(settings.datesSelectedClass).parent().next().children().addClass(settings.datesSelectedClass);
+					if (!src.find(settings.issuesDiv).is(':animated')) {
+						src.find(settings.issuesDiv).animate({'marginLeft':currentPositionIssues-widthIssue},{queue:false, duration:settings.issuesSpeed});
+						src.find(settings.issuesDiv+' li').animate({'opacity':settings.issuesTransparency},{queue:false, duration:settings.issuesSpeed});
+						src.find(settings.issuesDiv+' li.'+settings.issuesSelectedClass).removeClass(settings.issuesSelectedClass).next().fadeTo(settings.issuesTransparencySpeed, 1).addClass(settings.issuesSelectedClass);
+						src.find(settings.datesDiv).animate({'marginLeft':currentIssueDate},{queue:false, duration:'settings.datesSpeed'});
+						src.find(settings.datesDiv+' a.'+settings.datesSelectedClass).removeClass(settings.datesSelectedClass).parent().next().children().addClass(settings.datesSelectedClass);
 					}
 				}
 			} else if(settings.orientation == 'vertical') {
-				var currentPositionIssues = parseInt($(settings.issuesDiv).css('marginTop').substring(0,$(settings.issuesDiv).css('marginTop').indexOf('px')));
+				var currentPositionIssues = parseInt(src.find(settings.issuesDiv).css('marginTop').substring(0,src.find(settings.issuesDiv).css('marginTop').indexOf('px')));
 				var currentIssueIndex = currentPositionIssues/heightIssue;
-				var currentPositionDates = parseInt($(settings.datesDiv).css('marginTop').substring(0,$(settings.datesDiv).css('marginTop').indexOf('px')));
+				var currentPositionDates = parseInt(src.find(settings.datesDiv).css('marginTop').substring(0,src.find(settings.datesDiv).css('marginTop').indexOf('px')));
 				var currentIssueDate = currentPositionDates-heightDate;
 				if(currentPositionIssues <= -(heightIssue*howManyIssues-(heightIssue))) {
-					$(settings.issuesDiv).stop();
-					$(settings.datesDiv+' li:last-child a').click();
+					src.find(settings.issuesDiv).stop();
+					src.find(settings.datesDiv+' li:last-child a').click();
 				} else {
-					if (!$(settings.issuesDiv).is(':animated')) {
-						$(settings.issuesDiv).animate({'marginTop':currentPositionIssues-heightIssue},{queue:false, duration:settings.issuesSpeed});
-						$(settings.issuesDiv+' li').animate({'opacity':settings.issuesTransparency},{queue:false, duration:settings.issuesSpeed});
-						$(settings.issuesDiv+' li.'+settings.issuesSelectedClass).removeClass(settings.issuesSelectedClass).next().fadeTo(settings.issuesTransparencySpeed, 1).addClass(settings.issuesSelectedClass);
-						$(settings.datesDiv).animate({'marginTop':currentIssueDate},{queue:false, duration:'settings.datesSpeed'});
-						$(settings.datesDiv+' a.'+settings.datesSelectedClass).removeClass(settings.datesSelectedClass).parent().next().children().addClass(settings.datesSelectedClass);
+					if (!src.find(settings.issuesDiv).is(':animated')) {
+						src.find(settings.issuesDiv).animate({'marginTop':currentPositionIssues-heightIssue},{queue:false, duration:settings.issuesSpeed});
+						src.find(settings.issuesDiv+' li').animate({'opacity':settings.issuesTransparency},{queue:false, duration:settings.issuesSpeed});
+						src.find(settings.issuesDiv+' li.'+settings.issuesSelectedClass).removeClass(settings.issuesSelectedClass).next().fadeTo(settings.issuesTransparencySpeed, 1).addClass(settings.issuesSelectedClass);
+						src.find(settings.datesDiv).animate({'marginTop':currentIssueDate},{queue:false, duration:'settings.datesSpeed'});
+						src.find(settings.datesDiv+' a.'+settings.datesSelectedClass).removeClass(settings.datesSelectedClass).parent().next().children().addClass(settings.datesSelectedClass);
 					}
 				}
 			}
 			// prev/next buttons now disappears on first/last issue | bugfix from 0.9.51: lower than 1 issue hide the arrows
 			if(howManyDates == 1) {
-				$(settings.prevButton+','+settings.nextButton).fadeOut('fast');
+				src.find(settings.prevButton+','+settings.nextButton).fadeOut('fast');
 			} else if(howManyDates == 2) {
-				if($(settings.issuesDiv+' li:first-child').hasClass(settings.issuesSelectedClass)) {
-					$(settings.prevButton).fadeOut('fast');
-				 	$(settings.nextButton).fadeIn('fast');
+				if(src.find(settings.issuesDiv+' li:first-child').hasClass(settings.issuesSelectedClass)) {
+					src.find(settings.prevButton).fadeOut('fast');
+				 	src.find(settings.nextButton).fadeIn('fast');
 				} 
-				else if($(settings.issuesDiv+' li:last-child').hasClass(settings.issuesSelectedClass)) {
-					$(settings.nextButton).fadeOut('fast');
-					$(settings.prevButton).fadeIn('fast');
+				else if(src.find(settings.issuesDiv+' li:last-child').hasClass(settings.issuesSelectedClass)) {
+					src.find(settings.nextButton).fadeOut('fast');
+					src.find(settings.prevButton).fadeIn('fast');
 				}
 			} else {
-				if( $(settings.issuesDiv+' li:first-child').hasClass(settings.issuesSelectedClass) ) {
-					$(settings.prevButton).fadeOut('fast');
+				if( src.find(settings.issuesDiv+' li:first-child').hasClass(settings.issuesSelectedClass) ) {
+					src.find(settings.prevButton).fadeOut('fast');
 				} 
-				else if( $(settings.issuesDiv+' li:last-child').hasClass(settings.issuesSelectedClass) ) {
-					$(settings.nextButton).fadeOut('fast');
+				else if( src.find(settings.issuesDiv+' li:last-child').hasClass(settings.issuesSelectedClass) ) {
+					src.find(settings.nextButton).fadeOut('fast');
 				}
 				else {
-					$(settings.nextButton+','+settings.prevButton).fadeIn('slow');
+					src.find(settings.nextButton+','+settings.prevButton).fadeIn('slow');
 				}	
 			}
 		});
 
-		$(settings.prevButton).click(function(event){
+		src.find(settings.prevButton).click(function(event){
 			event.preventDefault();
 			if(settings.orientation == 'horizontal') {
-				var currentPositionIssues = parseInt($(settings.issuesDiv).css('marginLeft').substring(0,$(settings.issuesDiv).css('marginLeft').indexOf('px')));
+				var currentPositionIssues = parseInt(src.find(settings.issuesDiv).css('marginLeft').substring(0,src.find(settings.issuesDiv).css('marginLeft').indexOf('px')));
 				var currentIssueIndex = currentPositionIssues/widthIssue;
-				var currentPositionDates = parseInt($(settings.datesDiv).css('marginLeft').substring(0,$(settings.datesDiv).css('marginLeft').indexOf('px')));
+				var currentPositionDates = parseInt(src.find(settings.datesDiv).css('marginLeft').substring(0,src.find(settings.datesDiv).css('marginLeft').indexOf('px')));
 				var currentIssueDate = currentPositionDates+widthDate;
 				if(currentPositionIssues >= 0) {
-					$(settings.issuesDiv).stop();
-					$(settings.datesDiv+' li:first-child a').click();
+					src.find(settings.issuesDiv).stop();
+					src.find(settings.datesDiv+' li:first-child a').click();
 				} else {
-					if (!$(settings.issuesDiv).is(':animated')) {
-						$(settings.issuesDiv).animate({'marginLeft':currentPositionIssues+widthIssue},{queue:false, duration:settings.issuesSpeed});
-						$(settings.issuesDiv+' li').animate({'opacity':settings.issuesTransparency},{queue:false, duration:settings.issuesSpeed});
-						$(settings.issuesDiv+' li.'+settings.issuesSelectedClass).removeClass(settings.issuesSelectedClass).prev().fadeTo(settings.issuesTransparencySpeed, 1).addClass(settings.issuesSelectedClass);
-						$(settings.datesDiv).animate({'marginLeft':currentIssueDate},{queue:false, duration:'settings.datesSpeed'});
-						$(settings.datesDiv+' a.'+settings.datesSelectedClass).removeClass(settings.datesSelectedClass).parent().prev().children().addClass(settings.datesSelectedClass);
+					if (!src.find(settings.issuesDiv).is(':animated')) {
+						src.find(settings.issuesDiv).animate({'marginLeft':currentPositionIssues+widthIssue},{queue:false, duration:settings.issuesSpeed});
+						src.find(settings.issuesDiv+' li').animate({'opacity':settings.issuesTransparency},{queue:false, duration:settings.issuesSpeed});
+						src.find(settings.issuesDiv+' li.'+settings.issuesSelectedClass).removeClass(settings.issuesSelectedClass).prev().fadeTo(settings.issuesTransparencySpeed, 1).addClass(settings.issuesSelectedClass);
+						src.find(settings.datesDiv).animate({'marginLeft':currentIssueDate},{queue:false, duration:'settings.datesSpeed'});
+						src.find(settings.datesDiv+' a.'+settings.datesSelectedClass).removeClass(settings.datesSelectedClass).parent().prev().children().addClass(settings.datesSelectedClass);
 					}
 				}
 			} else if(settings.orientation == 'vertical') {
-				var currentPositionIssues = parseInt($(settings.issuesDiv).css('marginTop').substring(0,$(settings.issuesDiv).css('marginTop').indexOf('px')));
+				var currentPositionIssues = parseInt(src.find(settings.issuesDiv).css('marginTop').substring(0,src.find(settings.issuesDiv).css('marginTop').indexOf('px')));
 				var currentIssueIndex = currentPositionIssues/heightIssue;
-				var currentPositionDates = parseInt($(settings.datesDiv).css('marginTop').substring(0,$(settings.datesDiv).css('marginTop').indexOf('px')));
+				var currentPositionDates = parseInt(src.find(settings.datesDiv).css('marginTop').substring(0,src.find(settings.datesDiv).css('marginTop').indexOf('px')));
 				var currentIssueDate = currentPositionDates+heightDate;
 				if(currentPositionIssues >= 0) {
-					$(settings.issuesDiv).stop();
-					$(settings.datesDiv+' li:first-child a').click();
+					src.find(settings.issuesDiv).stop();
+					src.find(settings.datesDiv+' li:first-child a').click();
 				} else {
-					if (!$(settings.issuesDiv).is(':animated')) {
-						$(settings.issuesDiv).animate({'marginTop':currentPositionIssues+heightIssue},{queue:false, duration:settings.issuesSpeed});
-						$(settings.issuesDiv+' li').animate({'opacity':settings.issuesTransparency},{queue:false, duration:settings.issuesSpeed});
-						$(settings.issuesDiv+' li.'+settings.issuesSelectedClass).removeClass(settings.issuesSelectedClass).prev().fadeTo(settings.issuesTransparencySpeed, 1).addClass(settings.issuesSelectedClass);
-						$(settings.datesDiv).animate({'marginTop':currentIssueDate},{queue:false, duration:'settings.datesSpeed'},{queue:false, duration:settings.issuesSpeed});
-						$(settings.datesDiv+' a.'+settings.datesSelectedClass).removeClass(settings.datesSelectedClass).parent().prev().children().addClass(settings.datesSelectedClass);
+					if (!src.find(settings.issuesDiv).is(':animated')) {
+						src.find(settings.issuesDiv).animate({'marginTop':currentPositionIssues+heightIssue},{queue:false, duration:settings.issuesSpeed});
+						src.find(settings.issuesDiv+' li').animate({'opacity':settings.issuesTransparency},{queue:false, duration:settings.issuesSpeed});
+						src.find(settings.issuesDiv+' li.'+settings.issuesSelectedClass).removeClass(settings.issuesSelectedClass).prev().fadeTo(settings.issuesTransparencySpeed, 1).addClass(settings.issuesSelectedClass);
+						src.find(settings.datesDiv).animate({'marginTop':currentIssueDate},{queue:false, duration:'settings.datesSpeed'},{queue:false, duration:settings.issuesSpeed});
+						src.find(settings.datesDiv+' a.'+settings.datesSelectedClass).removeClass(settings.datesSelectedClass).parent().prev().children().addClass(settings.datesSelectedClass);
 					}
 				}
 			}
 			// prev/next buttons now disappears on first/last issue | bugfix from 0.9.51: lower than 1 issue hide the arrows
 			if(howManyDates == 1) {
-				$(settings.prevButton+','+settings.nextButton).fadeOut('fast');
+				src.find(settings.prevButton+','+settings.nextButton).fadeOut('fast');
 			} else if(howManyDates == 2) {
-				if($(settings.issuesDiv+' li:first-child').hasClass(settings.issuesSelectedClass)) {
-					$(settings.prevButton).fadeOut('fast');
-				 	$(settings.nextButton).fadeIn('fast');
+				if(src.find(settings.issuesDiv+' li:first-child').hasClass(settings.issuesSelectedClass)) {
+					src.find(settings.prevButton).fadeOut('fast');
+				 	src.find(settings.nextButton).fadeIn('fast');
 				} 
-				else if($(settings.issuesDiv+' li:last-child').hasClass(settings.issuesSelectedClass)) {
-					$(settings.nextButton).fadeOut('fast');
-					$(settings.prevButton).fadeIn('fast');
+				else if(src.find(settings.issuesDiv+' li:last-child').hasClass(settings.issuesSelectedClass)) {
+					src.find(settings.nextButton).fadeOut('fast');
+					src.find(settings.prevButton).fadeIn('fast');
 				}
 			} else {
-				if( $(settings.issuesDiv+' li:first-child').hasClass(settings.issuesSelectedClass) ) {
-					$(settings.prevButton).fadeOut('fast');
+				if( src.find(settings.issuesDiv+' li:first-child').hasClass(settings.issuesSelectedClass) ) {
+					src.find(settings.prevButton).fadeOut('fast');
 				} 
-				else if( $(settings.issuesDiv+' li:last-child').hasClass(settings.issuesSelectedClass) ) {
-					$(settings.nextButton).fadeOut('fast');
+				else if( src.find(settings.issuesDiv+' li:last-child').hasClass(settings.issuesSelectedClass) ) {
+					src.find(settings.nextButton).fadeOut('fast');
 				}
 				else {
-					$(settings.nextButton+','+settings.prevButton).fadeIn('slow');
+					src.find(settings.nextButton+','+settings.prevButton).fadeIn('slow');
 				}	
 			}
 		});
@@ -233,25 +240,25 @@ jQuery.fn.timelinr = function(options){
 			if(settings.orientation=='horizontal') {
 				$(document).keydown(function(event){
 					if (event.keyCode == 39) { 
-				       $(settings.nextButton).click();
+				       src.find(settings.nextButton).click();
 				    }
 					if (event.keyCode == 37) { 
-				       $(settings.prevButton).click();
+				       src.find(settings.prevButton).click();
 				    }
 				});
 			} else if(settings.orientation=='vertical') {
 				$(document).keydown(function(event){
 					if (event.keyCode == 40) { 
-				       $(settings.nextButton).click();
+				       src.find(settings.nextButton).click();
 				    }
 					if (event.keyCode == 38) { 
-				       $(settings.prevButton).click();
+				       src.find(settings.prevButton).click();
 				    }
 				});
 			}
 		}
 		// default position startAt, added since 0.9.3
-		$(settings.datesDiv+' li').eq(settings.startAt-1).find('a').trigger('click');
+		src.find(settings.datesDiv+' li').eq(settings.startAt-1).find('a').trigger('click');
 		// autoPlay, added since 0.9.4
 		if(settings.autoPlay == 'true') { 
 			setInterval("autoPlay()", settings.autoPlayPause);
@@ -261,16 +268,16 @@ jQuery.fn.timelinr = function(options){
 
 // autoPlay, added since 0.9.4
 function autoPlay(){
-	var currentDate = $(settings.datesDiv).find('a.'+settings.datesSelectedClass);
+	var currentDate = src.find(settings.datesDiv).find('a.'+settings.datesSelectedClass);
 	if(settings.autoPlayDirection == 'forward') {
 		if(currentDate.parent().is('li:last-child')) {
-			$(settings.datesDiv+' li:first-child').find('a').trigger('click');
+			src.find(settings.datesDiv+' li:first-child').find('a').trigger('click');
 		} else {
 			currentDate.parent().next().find('a').trigger('click');
 		}
 	} else if(settings.autoPlayDirection == 'backward') {
 		if(currentDate.parent().is('li:first-child')) {
-			$(settings.datesDiv+' li:last-child').find('a').trigger('click');
+			src.find(settings.datesDiv+' li:last-child').find('a').trigger('click');
 		} else {
 			currentDate.parent().prev().find('a').trigger('click');
 		}
